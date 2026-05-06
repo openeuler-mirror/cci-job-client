@@ -26,7 +26,7 @@ elif [ "${ARCH}" == "amd64" ];then
     ARCH="x86_64"
 fi
 echo "当前执行用户：$(whoami)"
-echo "the testcase is ${job_yaml}, and the logs dir is ${testcase_logs_dir}"
+echo "the testcase is ${job_yaml}, and the logs dir is ${testcase_dir}"
 # 获取脚本所在目录的绝对路径
 script_cur_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 # 获取脚本所在目录的上一层目录
