@@ -326,10 +326,10 @@ def main():
         # 输出 job_id，便于管道捕获
         logger.info(job_id)
     except KeyboardInterrupt:
-        logger.warning("\n\n用户中断", file=sys.stderr)
+        logger.warning("\n\n用户中断")
         sys.exit(1)
     except Exception as e:
-        logger.error(f"错误: {e}", file=sys.stderr)
+        logger.error(f"错误: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)
