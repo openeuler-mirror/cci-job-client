@@ -316,6 +316,9 @@ def get_hw_testboxes(dir_path: Optional[str] = None, params: Optional[str] = Non
     Returns:
         List of {testbox, type, task_id, ip} dicts
     """
+    if not api_key:
+        raise ValueError("api_key is required for hw testbox allocation")
+
     # Build ip -> filename map
     ip_filename_map = build_ip_filename_map(dir_path, params)
 
