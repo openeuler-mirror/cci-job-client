@@ -173,7 +173,7 @@ def get_job_id(submit_output: str) -> str:
     从提交输出中提取 job_id。
     """
     # 正则匹配 "got job id=xxx"
-    pattern = r'got\s+job\s+id=([^,\s]+)'
+    pattern = r'got\s+job\s+id\s*=\s*([^,\s]+)'
     match = re.search(pattern, submit_output)
     if match:
         job_id = match.group(1)
@@ -181,8 +181,9 @@ def get_job_id(submit_output: str) -> str:
         # 备用匹配
         lines = submit_output.split('\n')
         for line in lines:
-            if 'got job id=' in line:
-                job_id = line.split('got job id=')[1].split()[0].rstrip(',')
+            fallback = re.search(pattern, line)
+            if fallback:
+                job_id = fallback.group(1)
                 break
         else:
             job_id = ""
