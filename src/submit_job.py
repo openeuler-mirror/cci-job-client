@@ -46,7 +46,6 @@ from lib.parse_params_utils import parse_extra_params
 if not logging.getLogger().hasHandlers():
     os.makedirs('logs', exist_ok=True)
     logger_config = os.path.join(str(Path(__file__).parent.parent), 'config', 'logger.conf')
-    print(f"logger_config: {logger_config}")
     logging.config.fileConfig(logger_config)
 
 logger = logging.getLogger("common")
