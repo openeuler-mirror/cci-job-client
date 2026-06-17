@@ -156,6 +156,8 @@ def wait_job_status(
     logger.info("轮询任务状态")
     final_stage, job_suite = query_jobs(job_id, sched_host, sched_port, timeout, poll_interval)
 
+    job_health = None
+    result_root = None
     try:
         finish_data, finish_status_code = fetch_job_status(job_id, sched_host, sched_port, fields='job_health,result_root', timeout=30)
         if finish_status_code != 200:
@@ -163,6 +165,8 @@ def wait_job_status(
 
         job_health = finish_data.get('job_health')
         result_root = finish_data.get('result_root')
+    except requests.exceptions.RequestException as e:
+        logger.error(f"request exception: {e}")
     except json.JSONDecodeError as e:
         logger.error(f"JSON 解析错误：{e}，{poll_interval}秒后重试...")
     # 打印最终信息
