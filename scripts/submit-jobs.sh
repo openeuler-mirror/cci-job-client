@@ -1,5 +1,8 @@
 #!/bin/bash
 
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+source "${SCRIPT_DIR}/arch_utils.sh"
+
 #==============Jenkin配置的变量==============
 TIMESTAMP=${TIMESTAMP-"202512111800"}
 sched_host=${sched_host-"10.232.168.215"}
@@ -20,11 +23,8 @@ if [ ! -d "${testcase_dir}" ];then
   sudo mkdir -p ${testcase_dir}
 fi
 
-if [ "${ARCH}" == "arm64" ];then
-    ARCH="aarch64"
-elif [ "${ARCH}" == "amd64" ];then
-    ARCH="x86_64"
-fi
+ARCH=$(normalize_arch_to_kernel "${ARCH}")
+validate_arch "${ARCH}" || exit 1
 echo "当前执行用户：$(whoami)"
 echo "the testcase is ${job_yaml}, and the logs dir is ${testcase_dir}"
 # 获取脚本所在目录的绝对路径

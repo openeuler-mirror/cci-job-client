@@ -1,16 +1,15 @@
 #!/bin/bash
 
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+source "${SCRIPT_DIR}/arch_utils.sh"
+
 FILE_SERVER=${FILE_SERVER-"http://os-cicd.byted.org/fileserver"}
 TARGET_IP=${TARGET_IP}
 BRANCH=${BRANCH}
 TIMESTAMP=${TIMESTAMP}
 LOCAL_ROOTFS_DIR=${WORKSPACE}/tmp/rootfs
-ARCH=${ARCH-"aarch64"}
-if [ "${ARCH}" == "arm64" ];then
-    ARCH="aarch64"
-elif [ "${ARCH}" == "amd64" ];then
-    ARCH="x86_64"
-fi
+ARCH=$(normalize_arch_to_kernel "${ARCH-"aarch64"}")
+validate_arch "${ARCH}" || exit 1
 
 # 错误处理函数
 error_exit() {
@@ -50,12 +49,7 @@ if [ ! -d ${LOCAL_ROOTFS_DIR} ];then
   mkdir -p ${LOCAL_ROOTFS_DIR} || error_exit "mkdir ${LOCAL_ROOTFS_DIR} failed"
 fi
 
-debina_arch=${ARCH}
-if [ "${ARCH}" == "aarch64" ];then
-    debina_arch="arm64"
-elif [ "${ARCH}" == "x86_64" ];then
-    debina_arch="amd64"
-fi
+debina_arch=$(normalize_arch_to_debian "${ARCH}")
 
 wget -P ${LOCAL_ROOTFS_DIR} ${REMOTE_ROOTFS_DIR}/${debina_arch}/modules.cgz >/dev/null 2>&1 || error_exit "wget modules failed"
 wget -P ${LOCAL_ROOTFS_DIR} ${REMOTE_ROOTFS_DIR}/${debina_arch}/rootfs.cgz >/dev/null 2>&1 || error_exit "wget rootfs failed"
