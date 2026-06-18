@@ -231,10 +231,10 @@ def submit_job(
     """
     
     # 准备 LKP 客户端
-    if not skip_prepare:
+    if skip_prepare:
+        lkp_src = LKP_SRC_PATH
+    else:
         lkp_src = prepare_lkp_client()
-    
-    lkp_src = LKP_SRC_PATH
     
     # 提交作业
     output = submit_one_yaml(
