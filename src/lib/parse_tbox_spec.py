@@ -424,6 +424,9 @@ def apply_machines(ip_list: List[str], duration: int, api_key: str, api_url: Opt
     Raises:
         ValueError: If API call fails
     """
+    if not ip_list:
+        raise ValueError("ip_list is required for machine allocation")
+
     if api_url is None:
         api_url = OPS_API_BASE
 
