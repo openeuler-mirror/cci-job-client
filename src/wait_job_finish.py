@@ -82,6 +82,9 @@ def fetch_job_status(
     return data, resp.status_code
 
 def query_jobs(job_id, sched_host, sched_port, timeout, poll_interval):
+    if timeout <= 0:
+        raise ValueError("timeout must be positive")
+
     start_time = time.time()
     job_stage = None
     pre_job_query_flag = False
