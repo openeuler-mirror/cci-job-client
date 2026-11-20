@@ -65,7 +65,10 @@ def parse_params(params_str: str) -> Dict[str, str]:
         pair = pair.strip()
         if '=' in pair:
             key, value = pair.split('=', 1)
-            parsed[key.strip()] = value.strip()
+            key = key.strip()
+            if not key:
+                continue
+            parsed[key] = value.strip()
     return parsed
 
 def get_host_files(dir_path: Optional[str] = None, prefix: Optional[str] = None) -> List[str]:
