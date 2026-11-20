@@ -191,6 +191,9 @@ def poll_apply_task(task_id: int, api_key: str, api_url: Optional[str] = None, p
     Returns:
         List of available IP addresses, empty list if interrupted or timeout
     """
+    if not api_key:
+        raise ValueError("api_key is required for apply task polling")
+
     if api_url is None:
         api_url = OPS_API_BASE
 
