@@ -541,6 +541,9 @@ def return_machines(ip_list: List[str], task_ids: List[int], api_key: str, api_u
     Raises:
         ValueError: If API call fails
     """
+    if not api_key:
+        raise ValueError("api_key is required for machine return")
+
     if api_url is None:
         api_url = OPS_API_BASE
 
