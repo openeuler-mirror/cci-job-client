@@ -73,6 +73,9 @@ def fetch_job_status(
         requests.exceptions.RequestException: 网络请求异常
         json.JSONDecodeError: JSON解析异常
     """
+    if sched_port <= 0:
+        raise ValueError("sched_port must be positive")
+
     if fields:
         api_url = f"http://{sched_host}:{sched_port}/scheduler/v1/jobs/{job_id}?fields={fields}"
     else:
