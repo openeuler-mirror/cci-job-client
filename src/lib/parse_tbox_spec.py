@@ -471,6 +471,9 @@ def query_apply_task(task_id: int, api_key: str, api_url: Optional[str] = None) 
     Raises:
         ValueError: If API call fails
     """
+    if not api_key:
+        raise ValueError("api_key is required for apply task query")
+
     if api_url is None:
         api_url = OPS_API_BASE
 
